@@ -6,6 +6,7 @@
   library(ggplot2)
 ###############################################################################
   function(input, output, session) {  
+    ###########################################################################
     datasetInput <- function() {  
       read.csv("Data/GISDDprimer.csv")  
     }  
@@ -29,25 +30,46 @@
     output$table <- renderDataTable({  
       filteredData()  
     })  
-  # Output the plot  
-  output$Plot <- renderPlot({  
-    data <- filteredData()  
-    
-    ggplot(data) +  
-      theme_bw() +  
-      geom_point(aes(x = Position_start, y = Primer)) +  
-      geom_point(aes(x = Position_end, y = Primer)) +  
-      scale_x_continuous(limits = c(0, 12000), expand = c(0, 0),  
+    ###########################################################################
+    #box
+    output$NumberBox <- renderInfoBox({
+      data <- datasetInput()
+      infoBox(
+        "Primer Number", 
+        paste0(length(data$Sequence)),
+        icon = icon("list"),
+        color = "yellow"
+        )
+    })
+    #box
+    output$PaperBox <- renderInfoBox({
+      data <- datasetInput()
+      infoBox(
+        "Involved Paper Number", 
+        paste0(length(unique(data$Referrence))),
+        icon = icon("list"),
+        color = "yellow"
+      )
+    })
+    ###########################################################################
+    # Output the plot  
+    output$Plot <- renderPlot({  
+      data <- filteredData()  
+      ggplot(data) +  
+        theme_bw() +  
+        geom_point(aes(x = Position_start, y = Primer_Name)) +  
+        geom_point(aes(x = Position_end, y = Primer_Name)) +  
+        scale_x_continuous(limits = c(0, 12000), expand = c(0, 0),  
                          breaks = seq(0, 12000, by = 1000))  
-  })  
-  
-  # Download handler for the filtered data  
-  output$downloadData <- downloadHandler(  
-    filename = function() {  
-      paste("filtered_data", ".csv", sep = "")  
-    },  
-    content = function(file) {  
-      write.csv(filteredData(), file, row.names = FALSE)  
-    }  
-  )  
-}
+    })  
+    ###########################################################################
+    # Download handler for the filtered data  
+    output$downloadData <- downloadHandler(  
+      filename = function() {  
+        paste("filtered_data", ".csv", sep = "")  
+      },  
+      content = function(file) {  
+        write.csv(filteredData(), file, row.names = FALSE)  
+    })
+    ###########################################################################
+  }
