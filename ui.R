@@ -34,24 +34,37 @@
                       background = "yellow",
                       solidHeader = TRUE,
                       collapsible = TRUE,
-                      imageOutput("Plot", height = 420))
+                      imageOutput("Plot1", height = 420)),
+                  box(title = "TOP Affiliations",  
+                      background = "yellow",
+                      solidHeader = TRUE,
+                      collapsible = TRUE,
+                      imageOutput("Plot2", height = 420))
                 )),
         tabItem(tabName = "PrimerBank",
-                selectInput("Method", "Choose a method:",
+                
+                box(selectInput("Method", "Choose a method:",
                               c("All","Detection","Sanger sequence","High through sequence")),
-                selectInput("Serotype", "Choose a serotype:",
+                    selectInput("Serotype", "Choose a serotype:",
                               c("All","Universal", "D1", "D2","D3","D4")),
-                selectInput("Target", "Choose a target:",
+                    selectInput("Target", "Choose a target:",
                               c("All","C-prM","E","whole genome","Others")),
-                selectInput("Set", "Choose a target:",
-                              c("All")),
-                box(dataTableOutput("table"),width = 12
+                    dataTableOutput("table"),width = 12,
+                    style = "height:800px; overflow-y: scroll;overflow-x: scroll;"
                     )
                 ),
         tabItem(tabName = "PrimerEvaluation",
-                h2("tesHHHHt")),
+                h2("Primer Evaluation"),
+                fluidRow(
+                  box(textInput("upprimer","Forward primer:")),
+                  box(textInput("downprimer","Reverse primer:"))),
+                box(
+                  dataTableOutput("PrimerOutTable"),width = 12
+                )
+                ),
         tabItem(tabName = "About",
-                h2("GISDDrPrimer"))
+                h2("GISDDrPrimer")
+                )
         )
       )
     )

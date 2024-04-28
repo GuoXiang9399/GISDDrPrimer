@@ -21,9 +21,6 @@
       if (input$Target != "All") {  
         data <- data[data$Target == input$Target, ]  
       } 
-      if (input$Set != "All") {  
-        data <- data[data$Target == input$Set, ]  
-      }  
       return(data)  
     })  
     # Output the filtered data as a table  
@@ -53,15 +50,31 @@
     })
     ###########################################################################
     # Output the plot  
-    output$Plot <- renderPlot({  
+    output$Plot1 <- renderPlot({  
       data <- filteredData()  
       ggplot(data) +  
         theme_bw() +  
-        geom_point(aes(x = Position_start, y = Primer_Name)) +  
-        geom_point(aes(x = Position_end, y = Primer_Name)) +  
+        geom_histogram(aes(x = Position_Start)) +  
         scale_x_continuous(limits = c(0, 12000), expand = c(0, 0),  
                          breaks = seq(0, 12000, by = 1000))  
     })  
+    # Output the plot  
+    output$Plot2 <- renderPlot({  
+      data <- filteredData()  
+      data <- group_by(data, Target) %>% summarise(Number=n())
+      data <- subset(data, Target!="NA")
+      ggplot(data) +  
+        theme_bw() +  
+        geom_col(aes(x =Target, y = Number)) +  
+        #scale_x_continuous(limits = c(0, 12000), expand = c(0, 0),  
+         #                  breaks = seq(0, 12000, by = 1000))  
+        theme()
+    })  
+    ###########################################################################
+    # primer analysis
+    output$PrimerOutTable <- renderDataTable({
+      data.frame(up= paste(input$upprimer) )
+    })
     ###########################################################################
     # Download handler for the filtered data  
     output$downloadData <- downloadHandler(  
