@@ -5,5 +5,12 @@ GISDDrPrimer is a Shiny R based application that allows searching for published/
 
 GISDDrPrimer shows the amplicon and any variation found in the amplicon as well as in the primer binding regions.  GISDDrPrimer also provides a list of in-house designed conserved and degenerate primer pairs across the viral genome and presents information on occurrence and lineage of mutations with the degenerate codes, alignment to the genome.
 
-# Usage
+# Primer Bank
+
+<img src="Figure/PrimerBank.png" width="100%" style="display: block; margin: auto;" />
+
+# Primer Evaluation
+
+<img src="Figure/PrimerEvaluation.png" width="100%" style="display: block; margin: auto;" />
+
 
