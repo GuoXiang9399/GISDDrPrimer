@@ -126,7 +126,9 @@
         "Max GC",
         "Min GC",
         "Tm (GC content)",
-        "Tm (nearest neighbor thermodynamics)"
+        "Tm (nearest neighbor thermodynamics)",
+        "Off-target ratio",
+        "Off-target subgenotype"
       )
       upseq <- paste(input$upprimer)
       downseq <- paste(input$downprimer)
@@ -135,14 +137,18 @@
         nchar(upseq),
         find_Gc(upseq),
         Tm_GC(upseq,ambiguous=TRUE,variant="Primer3Plus",Na=50,mismatch=TRUE)[["Tm"]],
-        Tm_NN(upseq,Na=50)[["Tm"]]
+        Tm_NN(upseq,Na=50)[["Tm"]],
+        "0.81",
+        "5R"
       )
       Reverse_primer <- c(
         downseq,
         nchar(downseq),
         find_Gc(downseq),
         Tm_GC(downseq,ambiguous=TRUE,variant="Primer3Plus",Na=50,mismatch=TRUE)[["Tm"]],
-        Tm_NN(downseq,Na=50)[["Tm"]]
+        Tm_NN(downseq,Na=50)[["Tm"]],
+        "0.81",
+        "5R"
       )
       OutTable <- data.frame(Forward_primer = Forward_primer,
                  Reverse_primer = Reverse_primer)
