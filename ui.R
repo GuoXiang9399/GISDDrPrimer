@@ -60,6 +60,8 @@
                   box(textInput("upprimer","Your Forward Primer (5'->3'):")),
                   box(textInput("downprimer","Your Reverse Primer (5'->3'):"))),
                 box(
+                  selectInput("Serotype", "Choose a serotype:",
+                              c("All","Universal", "D1", "D2","D3","D4")),
                   dataTableOutput("PrimerOutTable"),width = 12
                   )
                 ),
