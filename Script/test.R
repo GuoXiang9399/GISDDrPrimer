@@ -142,7 +142,8 @@
   min.mismatch = 0
   matches <- vmatchPattern(primer,
                            sequences,
-                           max.mismatch = max.mismatch, 
+                           max.mismatch = max.mismatch,
+                           
                            min.mismatch = min.mismatch,fixed = T)
   if (length(matches) == 0) {
     rc_primer <- reverseComplement(primer)

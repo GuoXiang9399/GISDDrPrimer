@@ -79,6 +79,18 @@
         return(1)  
       }  
     }
+    location_D1 <- function(primer){
+      primer.str <- DNAString(primer)
+      sequences <- readDNAStringSet("Data/db_demo.fas","fasta")
+      max.mismatch = 3
+      min.mismatch = 0
+      matches <- vmatchPattern(primer,
+                               sequences,
+                               max.mismatch = max.mismatch, 
+                               min.mismatch = min.mismatch,fixed = T)
+      end <- paste(unique(end(matches)))
+      as.numeric(min(end))-unique(matches@width0)+1
+    }
     range_st_D1 <- function(input) {
       D1 <- "ACCACAAAGAAAGACTTAGGGATTGGCCATGTGGCTGTTGAAAACCACCACCATGCCGCAATGCTGGACGTGGACTTACATCCAGCTTCAGCCTGGACCCTCTATGCAGTGGCCACAACAATTATCACTCCCATGATGAGGCACACAATCGAAAACACAACGGCAAACATTTCCCTGACAGCCATTGCAAACCAGGCAGCTATATTGATGGGACTTGACAAAGGATGGCCAATATCAAAGATGGACATAGGAGTTCCACTTCTCGCCTTGGGGTGCTATTCCCAGGTGAATCCACTGACGCTGACAGCGGCGGTATTGATGCTAGTGGCTCATTACGCTATAATTGGACCTGGACTGCAAGCAAAAGCTACTAGAGAAGCTCAAAAAAGGACAGCGGCCGGAATAATGAAAAATCCAACCGTTGATGGAATCGTTGCAATAGATTTGGACCCTGTGGTTTATGATGCGAAATTTGAGAAACAACTAGGCCAAATAATGTTGCTGATACTATGCACATCACAGATCCTCTTGATGCGGACTACATGGGCCTTGTGCGAATCCATCACGTTGGCCACTGGACCTCTGACCACGCTCTGGGAGGGATCTCCAGGAAAATTTTGGAACACCACGATAGCGGTTTCCATGGCAAACATTTTCAGAGGAAGTTATCTAGCAGGAGCAGGTCTGGCCTTCTCATTAATGAAATCTCTAGGAGGAGGTAGGAGAGGCACGGGAGCCCAAGGGGAAACACTGGGAGAGAAATGGAAAAGACGACTGAACCAACTGAGCAAGTCAGAATTTAACACCTATAAAAGGAGTGGGATTATGGAAGTGGACAGATCCGAAGCCAAAGAGGGACTGAAAAGAGGAGAAACAACCAAACATGCAGTGTCGAGAGGAACCGCTAAATTGAGGTGGTTTGTGGAGAGGAACCTTGTGAAACCAGAAGGGAAAGTCATAGACCTCGGTTGTGGAAGAGGTGGCTGGTCATATTATTGCGCTGGGCTGAAGAAAGTCACAGAAGTGAAGGGATATACAAAAGGAGGACCTGGACATGAAGAACCAATCCCAATGGCGACCTATGGATGGAACCTAGTAAAGCTGCATTCCGGGAAAGACGTATTCTTTATACCACCTGAGAAATGTGACACCCTTTTGTGTGATATTGGTGAGTCCTCTCCAAACCCAACTATAGAGGAAGGAAGAACGCTACGCGTCCTAAAGATGGTGGAACCATGGCTCAGAGGAAACCAATTTTGCATAAAAATTCTGAATCCCTACATGCCAAGTGTGGTGGAAACTCTGGAGCAAATGCAAAGAAAACATGGAGGGATGCTAGTGCGAAATCCACTTTCAAGAAATTCCACTCATGAAATGTATTGGGTTTCATGTGGAACAGGAAACATTGTGTCAGCAGTAAACATGACATCCAGAATGTTGCTAAATCGATTCACAATGGCTCACAGGAAACCAACATATGAAAGAGACGTGGACCTAGGCGCCGGAACAAGACACGTGGCAGTGGAACCAGAGGTAGCCAACCTAGATATCATTGGCCAGAGGATAGAGAACATAAAACATGAACACAAGTCAACATGGCATTATGATGAGGACAATCCATACAAAACATGGGCCTATCATGGATCATATGAGGTCAAGCCATCAGGATCAGCCTCATCCATGGTCAATGGCGTGGTGAAACTGCTCACCAAACCATGGGATGTCATCCCCATGGTCACACAA"  
       seq_up <- paste(input)  
@@ -152,36 +164,33 @@
       namelist <- c(
         "Primers",
         "Primer Length",
-        "Max GC",
-        "Min GC",
+        "Primer start",
         "Tm (GC content)",
         "Tm (nearest neighbor thermodynamics)",
         "Off-target ratio",
-        "Off-target subgenotype",
-        "Primer start"
+        "Off-target subgenotype"
       )
       upseq <- paste(input$upprimer)
       downseq <- paste(input$downprimer)
+      #downseq <- Biostrings::DNAString(downseq)
+      #downseq <- Biostrings::reverseComplement(downseq)
       Forward_primer <- c(
         upseq,
         nchar(upseq),
-        find_Gc(upseq),
+        location_D1(upseq),
         Tm_GC(upseq,ambiguous=TRUE,variant="Primer3Plus",Na=50,mismatch=TRUE)[["Tm"]],
         Tm_NN(upseq,Na=50)[["Tm"]],
         paste(1-matchrate_D1(upseq)) ,
-        "5R",
-        range_st_D1(upseq)
+        "5R"
       )
       Reverse_primer <- c(
         downseq,
         nchar(downseq),
-        find_Gc(downseq),
+        location_D1(downseq),
         Tm_GC(downseq,ambiguous=TRUE,variant="Primer3Plus",Na=50,mismatch=TRUE)[["Tm"]],
         Tm_NN(downseq,Na=50)[["Tm"]],
-        "0.81",
-        "5R",
-        range_st_D1(upseq)
-        
+        paste(1-matchrate_D1(downseq)),
+        "5R"
       )
       OutTable <- data.frame(Forward_primer = Forward_primer,
                  Reverse_primer = Reverse_primer)
