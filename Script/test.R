@@ -33,11 +33,7 @@
   )
   
   
-  library(msaR)
 
-  seqfile <- system.file("sequences","AHBA.aln", package="msaR")
-  msaR(seqfile, menu=F, overviewbox = F)
-  
   
   library(rprimer)
   library(Biostrings)
@@ -135,4 +131,27 @@
   plotData(myOligos)
   
   myAssays <- designAssays(myOligos)  
+  
+  
+  library(Biostrings)
+  primer <- "TCAATATGCTGAAACGCGCGAGAAACCG"
+  primer.str <- DNAString(primer)
+  sequences <- readDNAStringSet("Data/db_demo.fas","fasta")
+  #sequences <- DNAString("AAAAAAAAAATCAATATGCTGAAACGCGCGAGAAACCGCGCTTTGGTGTGCTAGGTGTGAC")
+  max.mismatch = 3
+  min.mismatch = 0
+  matches <- vmatchPattern(primer,
+                           sequences,
+                           max.mismatch = max.mismatch, 
+                           min.mismatch = min.mismatch,fixed = T)
+  if (length(matches) == 0) {
+    rc_primer <- reverseComplement(primer)
+    matches <- vmatchPattern( rc_primer, 
+                              sequences, 
+                              max.mismatch = max.mismatch, 
+                              min.mismatch = min.mismatch,
+                              fixed = T)
+  }
+  return(matches)
+  
   

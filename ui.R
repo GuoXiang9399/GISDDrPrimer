@@ -10,6 +10,7 @@
   library(ggplot2)
   library(viridis)
   library(TmCalculator)
+  library(Biostrings)
 ###############################################################################
 # Define UI for application that draws a histogram
   dashboardPage(
