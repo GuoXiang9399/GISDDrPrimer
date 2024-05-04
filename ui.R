@@ -72,19 +72,28 @@
                   dataTableOutput("PrimerOutTable"),width = 12  )
                 ),
         tabItem(tabName = "Links",
-                h2(HTML("www.baidu.com")),
+                h2("Primer tools"),
+                fluidRow(
+                  box(solidHeader = TRUE,
+                      collapsible = TRUE,
+                      h2("Primer3web"),
+                      h4("https://primer3.ut.ee/"),
+                      h5("an integrating masking of template sequence with primer design software.")),
+                  box(solidHeader = TRUE,
+                      collapsible = TRUE,
+                      h2("MFEprimer"),
+                      h4("https://www.mfeprimer.com/"),
+                      h5("The MFEprimer Web Server version 4.0 serves as a comprehensive platform for PCR primer quality control and design tools."))),
                 fluidRow(
                   box(solidHeader = TRUE,
                       collapsible = TRUE,
                       h2("primalscheme"),
-                      h5("https://primalscheme.com/")),
+                      h4("https://primalscheme.com/"),
+                      h5("primalscheme is a tool for designing primer panels for multiplex PCR. It uses a greedy algorithm to find primers for tiling amplicon generation for multiple reference genomes. It works best on viral isolates of known lineages e.g. outbreak strains.")),
                   box(solidHeader = TRUE,
                       collapsible = TRUE,
-                      h2("primalscheme"))
+                      h2("primer")))
                 ),
-                
-                h5("Our study has established a reproduceable and comparable global genotyping framework of DENV with contextualizing spatiotemporal epidemiological information before. The defned framework was discriminated with three hierarchical layers of genotype, subgenotype and clade with respective mean pairwise distances 2–6%, 0.8–2%, and ≤0.8%. This framework reveals that the persisting traditional endemic sourcing, the emerging epidemic difusing, and the probably hidden epidemics are the crucial drivers of the rapid global spread of dengue. ")
-        ),
         tabItem(tabName = "About",
                 h2("GISDDrPrimer"),
                 h4("GISDDrPrimer is a Shiny R based application that allows searching for published/novel primer pairs targeting the DENV fragment and visualizing their alignment to the reference genome."),

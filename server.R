@@ -153,7 +153,8 @@
       data <- subset(data, Target!="NA")
       ggplot(data) +  
         theme_bw() +  
-        geom_col(aes(x =Target, y = Number)) +  
+        geom_col(aes(x =Target, y = Number,fill=Target),
+                 color="black",linewith=0.5,width=0.8) +  
         #scale_x_continuous(limits = c(0, 12000), expand = c(0, 0),  
          #                  breaks = seq(0, 12000, by = 1000))  
         theme()
