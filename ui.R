@@ -31,7 +31,7 @@
     dashboardBody(
       tabItems(
         tabItem(tabName = "PrimerDashborad",
-                h2("Dashborad for DENV primers"),
+                h2(HTML("<b><span style='color:#F39C12;'>Dashborad</span></b>"))  ,
                 fluidRow(
                   infoBoxOutput("NumberBox"),
                   infoBoxOutput("SetBox"),
@@ -50,6 +50,7 @@
                       imageOutput("Plot2", height = 350))
                 )),
         tabItem(tabName = "PrimerBank",
+                h2(HTML("<b><span style='color:#F39C12;'>Primer Bank</span></b>"))  ,
                 box(selectInput("Method", "Choose a method:",
                               c("All","Detection","Sanger sequence","High through sequence")),
                     selectInput("Serotype", "Choose a serotype:",
@@ -62,7 +63,7 @@
                     ),
                 ),
         tabItem(tabName = "PrimerEvaluation",
-                h2("Primer Evaluation"),
+                h2(HTML("<b><span style='color:#F39C12;'>Primer Evaluation</span></b>"))  ,
                 fluidRow(
                   box(textInput("upprimer","Your Forward Primer (5'->3'):"),
                       h5("example primer from Lanciotti_1992: ",
@@ -78,47 +79,48 @@
                   dataTableOutput("PrimerOutTable"),width = 12  )
                 ),
         tabItem(tabName = "Links",
-                h2("Primer tools"),
+                h2(HTML("<b><span style='color:#F39C12;'>Primer Tools</span></b>"))  ,
                 fluidRow(
                   box(solidHeader = TRUE,
                       collapsible = TRUE,
-                      h2("Primer3web"),
-                      h4("https://primer3.ut.ee/"),
+                      h3(HTML("<b><span style='color:#F39C12;'>Primer3web</span></b>"))  ,
+                      h4(HTML("<span style='color:#F39C12;'>https://primer3.ut.ee/</span>"))  ,
                       h5("an integrating masking of template sequence with primer design software.")),
                   box(solidHeader = TRUE,
                       collapsible = TRUE,
-                      h2("MFEprimer"),
-                      h4("https://www.mfeprimer.com/"),
+                      h3(HTML("<b><span style='color:#F39C12;'>MFEprimer</span></b>"))  ,
+                      h4(HTML("<span style='color:#F39C12;'>https://www.mfeprimer.com/</span>"))  ,
                       h5("The MFEprimer Web Server version 4.0 serves as a comprehensive platform for PCR primer quality control and design tools."))),
                 fluidRow(
                   box(solidHeader = TRUE,
                       collapsible = TRUE,
-                      h2("primalscheme"),
-                      h4("https://primalscheme.com/"),
+                      h3(HTML("<b><span style='color:#F39C12;'>primalscheme</span></b>"))  ,
+                      h4(HTML("<span style='color:#F39C12;'>https://primalscheme.com/</span>"))  ,
                       h5("primalscheme is a tool for designing primer panels for multiplex PCR. It uses a greedy algorithm to find primers for tiling amplicon generation for multiple reference genomes. It works best on viral isolates of known lineages e.g. outbreak strains.")),
                   box(solidHeader = TRUE,
                       collapsible = TRUE,
-                      h2("Oligo"),
-                      h4("https://www.oligo.net/"),
+                      h3(HTML("<b><span style='color:#F39C12;'>Oligo</span></b>"))  ,
+                      h4(HTML("<span style='color:#F39C12;'>https://www.oligo.net/</span>"))  ,
                       h5("OLIGO Primer Analysis Software is the essential tool for designing and analyzing sequencing and PCR primers, synthetic genes, and various kinds of probes including siRNA and molecular beacons."))),
                 fluidRow(
                   box(solidHeader = TRUE,
                       collapsible = TRUE,
-                      h2("qPrimerDB"),
-                      h4("https://qprimerdb.biodb.org"),
+                      h3(HTML("<b><span style='color:#F39C12;'>qPrimerDB</span></b>"))  ,
+                      h4(HTML("<span style='color:#F39C12;'>https://qprimerdb.biodb.org</span>"))  ,
                       h5("The qPrimerDB is the most comprehensive qPCR primer database available to date, with a web front-end providing gene-specific and pre-computed primer pairs over 1000 important organisms, including human, mouse, zebrafish, rice, maize, fungi, and microsporidia.")),
                   box(solidHeader = TRUE,
                       collapsible = TRUE,
-                      h2("Primer Biosoft"),
-                      h4("http://www.premierbiosoft.com/"),
+                      h3(HTML("<b><span style='color:#F39C12;'>Primer Biosoft</span></b>"))  ,
+                      h4(HTML("<span style='color:#F39C12;'>http://www.premierbiosoft.com/</span>"))  ,
                       h5("a group of computer scientists and biologists dedicated to accelerating research in life sciences.")
                       ))
                 ),
         tabItem(tabName = "About",
-                h2("GISDDrPrimer"),
+                h2(HTML("<b><span style='color:#F39C12;'>GISDDrPrimer</span></b>"))  ,
                 h4("GISDDrPrimer is a Shiny R based application that allows searching for published/novel primer pairs targeting the DENV fragment and visualizing their alignment to the reference genome."),
-                #imageOutput("D1Genome"),
-                h4("GISDDrPrimer shows the amplicon and any variation found in the amplicon as well as in the primer binding regions.  GISDDrPrimer also provides a list of in-house designed conserved and degenerate primer pairs across the viral genome and presents information on occurrence and lineage of mutations with the degenerate codes, alignment to the genome.")
+                h4("GISDDrPrimer shows the amplicon and any variation found in the amplicon as well as in the primer binding regions.  GISDDrPrimer also provides a list of in-house designed conserved and degenerate primer pairs across the viral genome and presents information on occurrence and lineage of mutations with the degenerate codes, alignment to the genome."),
+                img(src = "Dv_Genome.png", alt = "D1 Genome Image", style = "width:100%;height:auto;")
+                
                 )
         )
       )
