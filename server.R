@@ -16,7 +16,7 @@
     ###########################################################################
     #function
     datasetInput <- function() {  
-      read.csv("Data/GISDDprimer.csv")  
+      read_excel("Data/GISDDprimer.xlsx")  
     }  
     find_Gc <- function(input) {
       primer <- strsplit(as.character(input), "")
@@ -127,6 +127,16 @@
         )
     })
     #box
+    output$SetBox <- renderInfoBox({
+      data <- datasetInput()
+      infoBox(
+        "Set Number", 
+        paste0(length(unique(data$Set))),
+        icon = icon("list"),
+        color = "yellow"
+      )
+    })
+    #box
     output$PaperBox <- renderInfoBox({
       data <- datasetInput()
       infoBox(
@@ -137,14 +147,22 @@
       )
     })
     ###########################################################################
+    # Output the plot
+    ###########################################################################
     # Output the plot  
     output$Plot1 <- renderPlot({  
       data <- filteredData()  
       ggplot(data) +  
-        theme_bw() +  
-        geom_histogram(aes(x = Position_Start)) +  
+        theme_classic() +  
+        xlab("Position")+ylab("Primer number")+
+        geom_histogram(aes(x = Position_Start),
+                       color="black", fill="#9BD5E7", linewidth=0.50) +  
+        scale_y_continuous(expand = c(0,0),breaks = c(seq(0,100,by=1)))+
         scale_x_continuous(limits = c(0, 12000), expand = c(0, 0),  
-                         breaks = seq(0, 12000, by = 1000))  
+                         breaks = seq(0, 12000, by = 1000))  +
+        theme(legend.position = "none",
+              axis.text = element_text(size=12),
+              axis.title = element_text(size=15))
     })  
     # Output the plot  
     output$Plot2 <- renderPlot({  
@@ -152,12 +170,14 @@
       data <- group_by(data, Target) %>% summarise(Number=n())
       data <- subset(data, Target!="NA")
       ggplot(data) +  
-        theme_bw() +  
-        geom_col(aes(x =Target, y = Number,fill=Target),
-                 color="black",linewith=0.5,width=0.8) +  
-        #scale_x_continuous(limits = c(0, 12000), expand = c(0, 0),  
-         #                  breaks = seq(0, 12000, by = 1000))  
-        theme()
+        theme_classic() +
+        xlab("Target")+ylab("Primer number")+
+        geom_col(aes(x = reorder(Target,-Number)  , y = Number,fill=Target),
+                 color="black",linewith=0.5,width=0.65) +  
+        scale_y_continuous(expand = c(0,0),breaks = c(seq(0,100,by=1)))+
+        theme(legend.position = "none",
+              axis.text = element_text(size=12),
+              axis.title = element_text(size=15))
     })  
     ###########################################################################
     # primer analysis
