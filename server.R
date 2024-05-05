@@ -91,11 +91,25 @@
       end <- paste(unique(end(matches)))
       as.numeric(min(end))-unique(matches@width0)+1
     }
-    range_st_D1 <- function(input) {
-      D1 <- "ACCACAAAGAAAGACTTAGGGATTGGCCATGTGGCTGTTGAAAACCACCACCATGCCGCAATGCTGGACGTGGACTTACATCCAGCTTCAGCCTGGACCCTCTATGCAGTGGCCACAACAATTATCACTCCCATGATGAGGCACACAATCGAAAACACAACGGCAAACATTTCCCTGACAGCCATTGCAAACCAGGCAGCTATATTGATGGGACTTGACAAAGGATGGCCAATATCAAAGATGGACATAGGAGTTCCACTTCTCGCCTTGGGGTGCTATTCCCAGGTGAATCCACTGACGCTGACAGCGGCGGTATTGATGCTAGTGGCTCATTACGCTATAATTGGACCTGGACTGCAAGCAAAAGCTACTAGAGAAGCTCAAAAAAGGACAGCGGCCGGAATAATGAAAAATCCAACCGTTGATGGAATCGTTGCAATAGATTTGGACCCTGTGGTTTATGATGCGAAATTTGAGAAACAACTAGGCCAAATAATGTTGCTGATACTATGCACATCACAGATCCTCTTGATGCGGACTACATGGGCCTTGTGCGAATCCATCACGTTGGCCACTGGACCTCTGACCACGCTCTGGGAGGGATCTCCAGGAAAATTTTGGAACACCACGATAGCGGTTTCCATGGCAAACATTTTCAGAGGAAGTTATCTAGCAGGAGCAGGTCTGGCCTTCTCATTAATGAAATCTCTAGGAGGAGGTAGGAGAGGCACGGGAGCCCAAGGGGAAACACTGGGAGAGAAATGGAAAAGACGACTGAACCAACTGAGCAAGTCAGAATTTAACACCTATAAAAGGAGTGGGATTATGGAAGTGGACAGATCCGAAGCCAAAGAGGGACTGAAAAGAGGAGAAACAACCAAACATGCAGTGTCGAGAGGAACCGCTAAATTGAGGTGGTTTGTGGAGAGGAACCTTGTGAAACCAGAAGGGAAAGTCATAGACCTCGGTTGTGGAAGAGGTGGCTGGTCATATTATTGCGCTGGGCTGAAGAAAGTCACAGAAGTGAAGGGATATACAAAAGGAGGACCTGGACATGAAGAACCAATCCCAATGGCGACCTATGGATGGAACCTAGTAAAGCTGCATTCCGGGAAAGACGTATTCTTTATACCACCTGAGAAATGTGACACCCTTTTGTGTGATATTGGTGAGTCCTCTCCAAACCCAACTATAGAGGAAGGAAGAACGCTACGCGTCCTAAAGATGGTGGAACCATGGCTCAGAGGAAACCAATTTTGCATAAAAATTCTGAATCCCTACATGCCAAGTGTGGTGGAAACTCTGGAGCAAATGCAAAGAAAACATGGAGGGATGCTAGTGCGAAATCCACTTTCAAGAAATTCCACTCATGAAATGTATTGGGTTTCATGTGGAACAGGAAACATTGTGTCAGCAGTAAACATGACATCCAGAATGTTGCTAAATCGATTCACAATGGCTCACAGGAAACCAACATATGAAAGAGACGTGGACCTAGGCGCCGGAACAAGACACGTGGCAGTGGAACCAGAGGTAGCCAACCTAGATATCATTGGCCAGAGGATAGAGAACATAAAACATGAACACAAGTCAACATGGCATTATGATGAGGACAATCCATACAAAACATGGGCCTATCATGGATCATATGAGGTCAAGCCATCAGGATCAGCCTCATCCATGGTCAATGGCGTGGTGAAACTGCTCACCAAACCATGGGATGTCATCCCCATGGTCACACAA"  
-      seq_up <- paste(input)  
-      alignment <- pairwiseAlignment(D1, seq_up, type="global") 
-      alignment@pattern@range@start
+    OfftargetSubg_D1 <- function(primer){
+      primer.str <- DNAString(primer)
+      sequences <- readDNAStringSet("Data/db_demo.fas","fasta")
+      max.mismatch = 3
+      min.mismatch = 0
+      matches <- vmatchPattern(primer,
+                               sequences,
+                               max.mismatch = max.mismatch, 
+                               min.mismatch = min.mismatch,fixed = T)
+      if (length(matches) == 0) {  
+        return("/")  
+      }
+      end <- paste(unique(end(matches)))
+      Offtarget <- data.frame(isolate=matches@NAMES,offtarget=end)
+      Offtarget <- subset(Offtarget,offtarget=="NA")
+      print(as.character(Offtarget$isolate))
+      if (length(print(as.character(Offtarget$isolate))) == 0) {  
+        return("NA")  
+      }
     }
     ###########################################################################
     filteredData <- reactive({  
@@ -193,8 +207,9 @@
       )
       upseq <- paste(input$upprimer)
       downseq <- paste(input$downprimer)
-      #downseq <- Biostrings::DNAString(downseq)
-      #downseq <- Biostrings::reverseComplement(downseq)
+      downseq <- Biostrings::DNAString(downseq)
+      downseq <- Biostrings::reverseComplement(downseq)
+      downseq <- toString(downseq)
       Forward_primer <- c(
         upseq,
         nchar(upseq),
@@ -202,7 +217,7 @@
         Tm_GC(upseq,ambiguous=TRUE,variant="Primer3Plus",Na=50,mismatch=TRUE)[["Tm"]],
         Tm_NN(upseq,Na=50)[["Tm"]],
         paste(1-matchrate_D1(upseq)) ,
-        "5R"
+        OfftargetSubg_D1(upseq)
       )
       Reverse_primer <- c(
         downseq,
@@ -211,7 +226,7 @@
         Tm_GC(downseq,ambiguous=TRUE,variant="Primer3Plus",Na=50,mismatch=TRUE)[["Tm"]],
         Tm_NN(downseq,Na=50)[["Tm"]],
         paste(1-matchrate_D1(downseq)),
-        "5R"
+        "5R"#OfftargetSubg_D1(downseq)
       )
       OutTable <- data.frame(Forward_primer = Forward_primer,
                  Reverse_primer = Reverse_primer)

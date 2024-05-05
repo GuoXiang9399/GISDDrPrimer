@@ -70,7 +70,7 @@
                          HTML("<span style='color: blue; font-weight: bold;'>TCAATATGCTGAAACGCGCGAGAAACCG</span>")) ),
                   box(textInput("downprimer","Your Reverse Primer (5'->3'):"),
                       h5("example primer from Lanciotti_1992: ",
-                         HTML("<span style='color: blue; font-weight: bold;'>TTGCACCAACAGTCAATGTCTTCAGGTTC</span>")))),
+                         HTML("<span style='color: blue; font-weight: bold;'>CGTCTCAGTGATCCGGGGG</span>")))),
                 fluidRow(
                   box(selectInput("Serotype", "Choose a serotype:",
                               c("All","Universal", "D1", "D2","D3","D4"))),
