@@ -90,6 +90,7 @@
                                min.mismatch = min.mismatch,fixed = T)
       end <- paste(unique(end(matches)))
       as.numeric(min(end))-unique(matches@width0)+1
+
     }
     OfftargetSubg_D1 <- function(primer){
       primer.str <- DNAString(primer)
@@ -170,7 +171,7 @@
         theme_classic() +  
         xlab("Position")+ylab("Primer number")+
         geom_histogram(aes(x = Position_Start),
-                       color="black", fill="#9BD5E7", linewidth=0.50) +  
+                       color="black", fill="#32B6E4", linewidth=0.50) +  
         scale_y_continuous(expand = c(0,0),breaks = c(seq(0,100,by=1)))+
         scale_x_continuous(limits = c(0, 12000), expand = c(0, 0),  
                          breaks = seq(0, 12000, by = 1000))  +
@@ -186,9 +187,9 @@
       ggplot(data) +  
         theme_classic() +
         xlab("Target")+ylab("Primer number")+
-        geom_col(aes(x = reorder(Target,-Number)  , y = Number,fill=Target),
-                 color="black",linewith=0.5,width=0.65) +  
-        scale_y_continuous(expand = c(0,0),breaks = c(seq(0,100,by=1)))+
+        geom_col(aes(y = reorder(Target,Number)  , x = Number),
+                 color="black",linewith=0.50,width=0.60,fill="#E45A59") +  
+        scale_x_continuous(expand = c(0,0),breaks = c(seq(0,100,by=2)))+
         theme(legend.position = "none",
               axis.text = element_text(size=12),
               axis.title = element_text(size=15))
@@ -196,6 +197,9 @@
     ###########################################################################
     # primer analysis
     output$PrimerOutTable <- renderDataTable({
+      shiny::validate(shiny::need(input$upprimer, "Enter a valid sequence for your forward primer."))
+      shiny::validate(shiny::need(input$downprimer, "Enter a valid sequence for your reverse primer."))
+      shiny::validate(shiny::need(input$do3, "Click the 'Analyze' button."))
       namelist <- c(
         "Primers",
         "Primer Length",
@@ -217,7 +221,7 @@
         Tm_GC(upseq,ambiguous=TRUE,variant="Primer3Plus",Na=50,mismatch=TRUE)[["Tm"]],
         Tm_NN(upseq,Na=50)[["Tm"]],
         paste(1-matchrate_D1(upseq)) ,
-        OfftargetSubg_D1(upseq)
+        "5R"#OfftargetSubg_D1(upseq)
       )
       Reverse_primer <- c(
         downseq,

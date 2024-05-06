@@ -52,11 +52,11 @@
         tabItem(tabName = "PrimerBank",
                 h2(HTML("<b><span style='color:#F39C12;'>Primer Bank</span></b>"))  ,
                 box(selectInput("Method", "Choose a method:",
-                              c("All","Detection","Sanger sequence","High through sequence")),
+                              c("All","PCR","Cas","qPCR","Sanger")),
                     selectInput("Serotype", "Choose a serotype:",
                               c("All","Universal", "D1", "D2","D3","D4")),
                     selectInput("Target", "Choose a target:",
-                              c("All","C-prM","E","whole genome","Others")),
+                              c("All","C-prM","E","Genome","Others")),
                     dataTableOutput("table"),
                     downloadButton("downloadData", "Download"),
                     width = 12, style = "height:800px; overflow-y: scroll;overflow-x: scroll;"
@@ -74,7 +74,7 @@
                 fluidRow(
                   box(selectInput("Serotype", "Choose a serotype:",
                               c("All","Universal", "D1", "D2","D3","D4"))),
-                  box(actionButton("do3", h4(strong("Search")), icon("search-plus")))),
+                  box(actionButton("do3", h4(strong("Analyze")), icon("search-plus")))),
                 box(
                   dataTableOutput("PrimerOutTable"),width = 12  )
                 ),
