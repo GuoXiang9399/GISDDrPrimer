@@ -14,6 +14,36 @@
 ###############################################################################
   function(input, output, session) {  
     ###########################################################################
+    #filter data
+    filteredData <- reactive({  
+      data <- datasetInput()  
+      if (input$Method != "All") {  
+        data <- data[data$Method == input$Method, ]  
+      }  
+      if (input$Serotype != "All") {  
+        data <- data[data$Serotype == input$Serotype, ]  
+      }  
+      if (input$Target != "All") {  
+        data <- data[data$Target == input$Target, ]  
+      } 
+      return(data)  
+    })  
+    #primer input
+    db_input <- reactive({
+      data <- readDNAStringSet("Data/db_demo.fas","fasta")
+      if (input$Serotype != "All") {  
+        data <- readDNAStringSet("Data/db_demo.fas","fasta") 
+      }  
+      if (input$Serotype != "D1") {  
+        data <- readDNAStringSet("Data/NCBI_D1_20231204_Ge.fas","fasta") 
+      }  
+      return(data)  
+    })
+    # Output the filtered data as a table  
+    output$table <- renderDataTable({  
+      filteredData()  
+    })  
+    ###########################################################################
     #function
     datasetInput <- function() {  
       read_excel("Data/GISDDprimer.xlsx")  
@@ -81,8 +111,8 @@
     }
     location_D1 <- function(primer){
       primer.str <- DNAString(primer)
-      sequences <- readDNAStringSet("Data/db_demo.fas","fasta")
-      max.mismatch = 3
+      sequences <- db_input()
+      max.mismatch = 4
       min.mismatch = 0
       matches <- vmatchPattern(primer,
                                sequences,
@@ -94,7 +124,7 @@
     }
     OfftargetSubg_D1 <- function(primer){
       primer.str <- DNAString(primer)
-      sequences <- readDNAStringSet("Data/db_demo.fas","fasta")
+      sequences <- db_input()
       max.mismatch = 3
       min.mismatch = 0
       matches <- vmatchPattern(primer,
@@ -112,24 +142,6 @@
         return("NA")  
       }
     }
-    ###########################################################################
-    filteredData <- reactive({  
-      data <- datasetInput()  
-      if (input$Method != "All") {  
-        data <- data[data$Method == input$Method, ]  
-      }  
-      if (input$Serotype != "All") {  
-        data <- data[data$Serotype == input$Serotype, ]  
-      }  
-      if (input$Target != "All") {  
-        data <- data[data$Target == input$Target, ]  
-      } 
-      return(data)  
-    })  
-    # Output the filtered data as a table  
-    output$table <- renderDataTable({  
-      filteredData()  
-    })  
     ###########################################################################
     #box
     output$NumberBox <- renderInfoBox({
@@ -181,7 +193,7 @@
     })  
     # Output the plot  
     output$Plot2 <- renderPlot({  
-      data <- filteredData()  
+      data <- filteredData()   
       data <- group_by(data, Target) %>% summarise(Number=n())
       data <- subset(data, Target!="NA")
       ggplot(data) +  
