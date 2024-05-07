@@ -92,7 +92,7 @@
       GC = (y + z) / (y + z + w + x) * 100
       return(GC)
     }
-    matchrate_D1 <- function(primer){
+    matchrate <- function(primer){
       primer.str <- DNAString(primer)
       sequences <- readDNAStringSet("Data/db_demo.fas","fasta")
       max.mismatch = 3
@@ -109,10 +109,10 @@
         return(1)  
       }  
     }
-    location_D1 <- function(primer){
+    location <- function(primer){
       primer.str <- DNAString(primer)
       sequences <- db_input()
-      max.mismatch = 4
+      max.mismatch = 3
       min.mismatch = 0
       matches <- vmatchPattern(primer,
                                sequences,
@@ -122,7 +122,7 @@
       as.numeric(min(end))-unique(matches@width0)+1
 
     }
-    OfftargetSubg_D1 <- function(primer){
+    OfftargetSubg <- function(primer){
       primer.str <- DNAString(primer)
       sequences <- db_input()
       max.mismatch = 3
@@ -137,7 +137,14 @@
       end <- paste(unique(end(matches)))
       Offtarget <- data.frame(isolate=matches@NAMES,offtarget=end)
       Offtarget <- subset(Offtarget,offtarget=="NA")
-      print(as.character(Offtarget$isolate))
+      Offtarget <- separate(Offtarget,isolate,into=c("Accession","label"),
+                            sep=".1_")
+      GISDD <- read_excel("Data/GISDD.v1.2.3.simple.xlsx")
+      Offtarget <- left_join(Offtarget,GISDD)
+      Offtarget <- unite(Offtarget,Virus_Type,Clade,col="Label",sep="_",remove=F)
+      Label <-unique(Offtarget$Label) 
+      Label <- toString(Label)
+      print(Label) 
       if (length(print(as.character(Offtarget$isolate))) == 0) {  
         return("NA")  
       }
@@ -211,7 +218,7 @@
     output$PrimerOutTable <- renderDataTable({
       shiny::validate(shiny::need(input$upprimer, "Enter a valid sequence for your forward primer."))
       shiny::validate(shiny::need(input$downprimer, "Enter a valid sequence for your reverse primer."))
-      shiny::validate(shiny::need(input$do3, "Click the 'Analyze' button."))
+      shiny::validate(shiny::need(input$do3, "Click the 'Analyze' button, and wait about 20-30s."))
       namelist <- c(
         "Primers",
         "Primer Length",
@@ -229,20 +236,20 @@
       Forward_primer <- c(
         upseq,
         nchar(upseq),
-        location_D1(upseq),
+        location(upseq),
         Tm_GC(upseq,ambiguous=TRUE,variant="Primer3Plus",Na=50,mismatch=TRUE)[["Tm"]],
         Tm_NN(upseq,Na=50)[["Tm"]],
-        paste(1-matchrate_D1(upseq)) ,
-        "5R"#OfftargetSubg_D1(upseq)
+        paste(1-matchrate(upseq)) ,
+        OfftargetSubg(upseq)#"5R"
       )
       Reverse_primer <- c(
         downseq,
         nchar(downseq),
-        location_D1(downseq),
+        location(downseq),
         Tm_GC(downseq,ambiguous=TRUE,variant="Primer3Plus",Na=50,mismatch=TRUE)[["Tm"]],
         Tm_NN(downseq,Na=50)[["Tm"]],
-        paste(1-matchrate_D1(downseq)),
-        "5R"#OfftargetSubg_D1(downseq)
+        paste(1-matchrate(downseq)),
+        OfftargetSubg(downseq)#"5R"
       )
       OutTable <- data.frame(Forward_primer = Forward_primer,
                  Reverse_primer = Reverse_primer)

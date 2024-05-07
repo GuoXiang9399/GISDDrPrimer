@@ -177,8 +177,16 @@
     end <- paste(unique(end(matches)))
     Offtarget <- data.frame(isolate=matches@NAMES,offtarget=end)
     Offtarget <- subset(Offtarget,offtarget=="NA")
-    print(Offtarget$isolate) 
-  }
+    Offtarget <- separate(Offtarget,isolate,into=c("Accession","label"),
+                          sep=".1_")
+    GISDD <- read_excel("Data/GISDD.v1.2.3.simple.xlsx")
+    Offtarget <- left_join(Offtarget,GISDD)
+    Offtarget <- unite(Offtarget,Virus_Type,Clade,col="Label",sep="_",remove=F)
+    Offtarget <- subset(Offtarget,Clade!="NA")
+    Label <- unique(Offtarget$Label) 
+    Label <- toString(Label)
+    
+    }
   
-  
+  library(tidyr)
   
