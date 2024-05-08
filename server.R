@@ -148,8 +148,8 @@
       Label <-unique(Offtarget$Label) 
       Label <- toString(Label)
       print(Label) 
-      #if (length(print(as.character(Offtarget$isolate))) == 0) {  
-       # return("NA")  
+      if (length(print(as.character(Offtarget$isolate))) == 0) {  
+        return("NA")  
       }
     }
     ###########################################################################
