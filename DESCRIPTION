@@ -1,0 +1,20 @@
+Package: GISDDrPrimer
+Type: Package
+Title: GISDDrPrimer is a Shiny R based application that allows searching for published/novel primer pairs 
+Version: 0.1.0
+Author: Xiang Guo
+Authors@R: c(person("Guo", "Xiang", email = "guoxiang199399@163.com",
+                    role = c("aut", "cre")))
+Maintainer: The package maintainer <guoxiang199399@163.com>
+Description: GISDDrPrimer is a Shiny R based application that allows searching for published/novel primer pairs targeting the DENV fragment and visualizing their alignment to the reference genome..
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+VignetteBuilder: knitr
+RoxygenNote: 7.3.1
+Roxygen: list(markdown = TRUE)
+URL: https://www.bic.ac.cn/BIC
+Depends:
+  R (>= 3.1)
+Imports:
+  shiny, shinydashboard, readxl, dplyr, tidyr, DT, ggplot2, viridis, TmCalculator, Biostrings

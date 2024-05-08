@@ -35,9 +35,12 @@
         data <- readDNAStringSet("Data/db_demo.fas","fasta") 
       }  
       if (input$Serotype != "D1") {  
-        data <- readDNAStringSet("Data/NCBI_D1_20231204_Ge.fas","fasta") 
+        data <- readDNAStringSet("Data/GISDD_D1_20231204_Ge.fas","fasta") 
       }  
-      return(data)  
+      if (input$Serotype != "D4") {  
+        data <- readDNAStringSet("Data/GISDD_D4_20231204_Ge.fas","fasta") 
+      }  
+	  return(data)  
     })
     # Output the filtered data as a table  
     output$table <- renderDataTable({  
@@ -145,8 +148,8 @@
       Label <-unique(Offtarget$Label) 
       Label <- toString(Label)
       print(Label) 
-      if (length(print(as.character(Offtarget$isolate))) == 0) {  
-        return("NA")  
+      #if (length(print(as.character(Offtarget$isolate))) == 0) {  
+       # return("NA")  
       }
     }
     ###########################################################################
