@@ -73,7 +73,7 @@
                          HTML("<span style='color: blue; font-weight: bold;'>CGTCTCAGTGATCCGGGGG</span>")))),
                 fluidRow(
                   box(selectInput("Serotype", "Choose a serotype:",
-                              c("All","Universal", "D1", "D2","D3","D4"))),
+                              c("All", "D1", "D2","D3","D4"))),
                   box(actionButton("do3", h4(strong("Analyze")), icon("search-plus")))),
                 box(
                   dataTableOutput("PrimerOutTable"),width = 12  )

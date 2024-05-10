@@ -30,12 +30,18 @@
     })  
     #primer input
     db_input <- reactive({
-      data <- readDNAStringSet("Data/db_demo.fas","fasta")
+      data <- readDNAStringSet("Data/GISDD_All_20231204_Ge.fas","fasta")
       if (input$Serotype != "All") {  
-        data <- readDNAStringSet("Data/db_demo.fas","fasta") 
+        data <- readDNAStringSet("Data/GISDD_All_20231204_Ge.fas","fasta") 
       }  
       if (input$Serotype != "D1") {  
         data <- readDNAStringSet("Data/GISDD_D1_20231204_Ge.fas","fasta") 
+      }  
+      if (input$Serotype != "D2") {  
+        data <- readDNAStringSet("Data/GISDD_D2_20231204_Ge.fas","fasta") 
+      }  
+      if (input$Serotype != "D3") {  
+        data <- readDNAStringSet("Data/GISDD_D3_20231201_Ge.fas","fasta") 
       }  
       if (input$Serotype != "D4") {  
         data <- readDNAStringSet("Data/GISDD_D4_20231204_Ge.fas","fasta") 
