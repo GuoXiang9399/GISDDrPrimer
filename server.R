@@ -217,7 +217,8 @@
         xlab("Target")+ylab("Primer number")+
         geom_col(aes(y = reorder(Target,Number)  , x = Number),
                  color="black",linewith=0.50,width=0.60,fill="#E45A59") +  
-        scale_x_continuous(expand = c(0,0),breaks = c(seq(0,100,by=2)))+
+        scale_x_continuous(expand = c(0,0),breaks = c(seq(0,100,by=20)))+
+        scale_y_discrete(limits=c("3UTR","NS5","NS4B","NS4A","NS3","NS2B","NS2A","NS1","E","C/PrM","5UTR"))+
         theme(legend.position = "none",
               axis.text = element_text(size=12),
               axis.title = element_text(size=15))
