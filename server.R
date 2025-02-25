@@ -199,8 +199,8 @@
         theme_classic() +  
         xlab("Position")+ylab("Primer number")+
         geom_histogram(aes(x = Position_Start),
-                       color="black", fill="#32B6E4", linewidth=0.50) +  
-        scale_y_continuous(expand = c(0,0),breaks = c(seq(0,100,by=1)))+
+                       color="black", fill="#51A261", linewidth=0.50) +  
+        scale_y_continuous(expand = c(0,0),breaks = c(seq(0,100,by=5)))+
         scale_x_continuous(limits = c(0, 12000), expand = c(0, 0),  
                          breaks = seq(0, 12000, by = 1000))  +
         theme(legend.position = "none",
@@ -215,10 +215,40 @@
       ggplot(data) +  
         theme_classic() +
         xlab("Target")+ylab("Primer number")+
-        geom_col(aes(y = reorder(Target,Number)  , x = Number),
+        geom_col(aes(x = reorder(Target,Number)  , y = Number),
                  color="black",linewith=0.50,width=0.60,fill="#51A261") +  
-        scale_x_continuous(expand = c(0,0),breaks = c(seq(0,100,by=20)))+
-        scale_y_discrete(limits=c("3UTR","NS5","NS4B","NS4A","NS3","NS2B","NS2A","NS1","E","C/PrM","5UTR"))+
+        scale_y_continuous(expand = c(0,0),breaks = c(seq(0,100,by=20)))+
+        scale_x_discrete(limits=c("5UTR","C/PrM","E","NS1","NS2A","NS2B","NS3","NS4A","NS4B","NS5","3UTR"))+
+        theme(legend.position = "none",
+              axis.text = element_text(size=12),
+              axis.title = element_text(size=15))
+    })  
+    # Output the plot  
+    output$Plot3 <- renderPlot({  
+      data <- filteredData()   
+      data <- group_by(data, Year) %>% summarise(Number=n())
+      data <- subset(data, Year!="NA")
+      ggplot(data) +  
+        theme_classic() +
+        xlab("Year")+ylab("Primer number")+
+        geom_col(aes(x = Year  , y = Number),
+                 color="black",linewith=0.50,width=0.60,fill="#51A261") +  
+        scale_x_continuous(expand = c(0,0),breaks = c(seq(0,3000,by=4)))+
+        scale_y_continuous(expand = c(0,0))+
+        theme(legend.position = "none",
+              axis.text = element_text(size=12),
+              axis.title = element_text(size=15))
+    })  
+    # Output the plot  
+    output$Plot4 <- renderPlot({  
+      data <- filteredData()   
+      data <- group_by(data, Journal) %>% summarise(Number=n())
+      data <- subset(data, Journal!="NA")
+      ggplot(data) +  
+        theme_classic() +
+        xlab("Journal")+ylab("Primer number")+
+        geom_col(aes(x = Journal  , y = Number),
+                 color="black",linewith=0.50,width=0.60,fill="#51A261") +  
         theme(legend.position = "none",
               axis.text = element_text(size=12),
               axis.title = element_text(size=15))
