@@ -166,7 +166,7 @@
         "Primer Number", 
         paste0(length(data$Sequence)),
         icon = icon("list"),
-        color = "yellow"
+        color = "green"
         )
     })
     #box
@@ -176,7 +176,7 @@
         "Set Number", 
         paste0(length(unique(data$Set))),
         icon = icon("list"),
-        color = "yellow"
+        color = "green"
       )
     })
     #box
@@ -186,7 +186,7 @@
         "Involved Paper Number", 
         paste0(length(unique(data$Referrence))),
         icon = icon("list"),
-        color = "yellow"
+        color = "green"
       )
     })
     ###########################################################################
@@ -216,7 +216,7 @@
         theme_classic() +
         xlab("Target")+ylab("Primer number")+
         geom_col(aes(y = reorder(Target,Number)  , x = Number),
-                 color="black",linewith=0.50,width=0.60,fill="#E45A59") +  
+                 color="black",linewith=0.50,width=0.60,fill="#51A261") +  
         scale_x_continuous(expand = c(0,0),breaks = c(seq(0,100,by=20)))+
         scale_y_discrete(limits=c("3UTR","NS5","NS4B","NS4A","NS3","NS2B","NS2A","NS1","E","C/PrM","5UTR"))+
         theme(legend.position = "none",

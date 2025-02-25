@@ -14,7 +14,7 @@
 ###############################################################################
 # Define UI for application that draws a histogram
   dashboardPage(
-    skin = "yellow",
+    skin = "green",
     dashboardHeader(title = "GISDDprimer",
                     dropdownMenu(type = "notifications",
                                  notificationItem( text = "Last update of data: 2022-09-14",icon = icon("calendar"))),
@@ -31,7 +31,7 @@
     dashboardBody(
       tabItems(
         tabItem(tabName = "PrimerDashborad",
-                h2(HTML("<b><span style='color:#F39C12;'>Dashborad</span></b>"))  ,
+                h2(HTML("<b><span style='color:#51A26;'>Dashborad</span></b>"))  ,
                 fluidRow(
                   infoBoxOutput("NumberBox"),
                   infoBoxOutput("SetBox"),
@@ -39,18 +39,18 @@
                 ),
                 fluidRow(
                   box(title = "TOP Affiliations",  
-                      background = "yellow",
+                      background = "green",
                       solidHeader = TRUE,
                       collapsible = TRUE,
                       imageOutput("Plot1", height = 350)),
                   box(title = "TOP Affiliations",  
-                      background = "yellow",
+                      background = "green",
                       solidHeader = TRUE,
                       collapsible = TRUE,
                       imageOutput("Plot2", height = 350))
                 )),
         tabItem(tabName = "PrimerBank",
-                h2(HTML("<b><span style='color:#F39C12;'>Primer Bank</span></b>"))  ,
+                h2(HTML("<b><span style='color:#51A262;'>Primer Bank</span></b>"))  ,
                 box(selectInput("Method", "Choose a method:",
                               c("All","PCR","Cas","qPCR","Sanger")),
                     selectInput("Serotype", "Choose a serotype:",
@@ -116,7 +116,7 @@
                       ))
                 ),
         tabItem(tabName = "About",
-                h2(HTML("<b><span style='color:#F39C12;'>GISDDrPrimer</span></b>"))  ,
+                h2(HTML("<b><span style='color:#51A262;'>GISDDrPrimer</span></b>"))  ,
                 h4("GISDDrPrimer is a Shiny R based application that allows searching for published/novel primer pairs targeting the DENV fragment and visualizing their alignment to the reference genome."),
                 h4("GISDDrPrimer shows the amplicon and any variation found in the amplicon as well as in the primer binding regions.  GISDDrPrimer also provides a list of in-house designed conserved and degenerate primer pairs across the viral genome and presents information on occurrence and lineage of mutations with the degenerate codes, alignment to the genome."),
                 img(src = "Dv_Genome.png", alt = "D1 Genome Image", style = "width:100%;height:auto;")
