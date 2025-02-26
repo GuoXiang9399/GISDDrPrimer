@@ -217,7 +217,7 @@
         xlab("Target")+ylab("Primer number")+
         geom_col(aes(x = reorder(Target,Number)  , y = Number),
                  color="black",linewith=0.50,width=0.60,fill="#51A261") +  
-        scale_y_continuous(expand = c(0,0),breaks = c(seq(0,100,by=20)))+
+        scale_y_continuous(expand = c(0,0),breaks = c(seq(0,200,by=20)))+
         scale_x_discrete(limits=c("5UTR","C/PrM","E","NS1","NS2A","NS2B","NS3","NS4A","NS4B","NS5","3UTR"))+
         theme(legend.position = "none",
               axis.text = element_text(size=12),
@@ -244,11 +244,13 @@
       data <- filteredData()   
       data <- group_by(data, Journal) %>% summarise(Number=n())
       data <- subset(data, Journal!="NA")
+      data <- subset(data, Number>=15)
       ggplot(data) +  
         theme_classic() +
-        xlab("Journal")+ylab("Primer number")+
-        geom_col(aes(x = Journal  , y = Number),
+        ylab("Journal")+xlab("Primer number")+
+        geom_col(aes(y = reorder(Journal, Number)   , x = Number),
                  color="black",linewith=0.50,width=0.60,fill="#51A261") +  
+        scale_x_continuous(expand = c(0,0))+
         theme(legend.position = "none",
               axis.text = element_text(size=12),
               axis.title = element_text(size=15))
