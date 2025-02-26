@@ -233,7 +233,7 @@
         xlab("Year")+ylab("Primer number")+
         geom_col(aes(x = Year  , y = Number),
                  color="black",linewith=0.50,width=0.60,fill="#51A261") +  
-        scale_x_continuous(expand = c(0,0),breaks = c(seq(0,3000,by=4)))+
+        scale_x_continuous(breaks = c(seq(0,3000,by=4)))+
         scale_y_continuous(expand = c(0,0))+
         theme(legend.position = "none",
               axis.text = element_text(size=12),

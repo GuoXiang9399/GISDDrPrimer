@@ -68,7 +68,7 @@
                     selectInput("Serotype", "Choose a serotype:",
                               c("All","Pan-DENV", "DENV1", "DENV2","DENV3","DENV4")),
                     selectInput("Target", "Choose a target:",
-                              c("All","C-prM","E","3UTR","Genome","Others")),
+                              c("All","C/PrM","E","NS1","NS2A","3UTR","Genome","Others")),
                     dataTableOutput("table"),
                     downloadButton("downloadData", "Download"),
                     width = 12, style = "height:800px; overflow-y: scroll;overflow-x: scroll;"
