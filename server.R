@@ -173,8 +173,8 @@
     output$SetBox <- renderInfoBox({
       data <- datasetInput()
       infoBox(
-        "Set Number", 
-        paste0(length(unique(data$Set))),
+        "Involved Journal", 
+        paste0(length(unique(data$Journal))),
         icon = icon("list"),
         color = "green"
       )
@@ -183,8 +183,8 @@
     output$PaperBox <- renderInfoBox({
       data <- datasetInput()
       infoBox(
-        "Involved Paper Number", 
-        paste0(length(unique(data$Referrence))),
+        "Involved Paper", 
+        paste0(length(unique(data$Doi))),
         icon = icon("list"),
         color = "green"
       )
