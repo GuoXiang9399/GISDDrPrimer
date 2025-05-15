@@ -103,7 +103,8 @@
     }
     matchrate <- function(primer){
       primer.str <- DNAString(primer)
-      sequences <- readDNAStringSet("Data/db_demo.fas","fasta")
+      #sequences <- readDNAStringSet("Data/db_demo.fas","fasta")
+      sequences <- readDNAStringSet("Data/GISDD_All_20231204_Ge.fas","fasta")
       max.mismatch = 3
       min.mismatch = 0
       matches <- vmatchPattern(primer,
